@@ -1,48 +1,40 @@
-import React from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import React, { Component } from "react";
+import { StyleSheet, View } from "react-native";
 
-import ListItem from "./src/components/ListItem/ListItem";
+import PlaceInput from "./src/components/PlaceInput/PlaceInput";
+import PlaceList from "./src/components/PlaceList/PlaceList";
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
-    placeName: "",
     places: []
   };
 
-  placeNameChangeHandler = val => {
-    this.setState({
-      placeName: val
+  placeAddedHandler = placeName => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat(placeName)
+      };
     });
   };
 
-  placeSubmitHandler = () => {
-    if (this.state.placeName.trim() === "") {
-      return;
-    }
-    this.setState(s => ({ places: [...s.places, s.placeName] }));
+  placeDeletedHandler = index => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.filter((place, i) => {
+          return i !== index;
+        })
+      };
+    });
   };
 
   render() {
-    const placesOutput = this.state.places.map(p => (
-      <ListItem key={p} placeName={p} onItemPress={() => alert("pressed", p)} />
-    ));
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainter}>
-          <TextInput
-            placeholder="Awesome place"
-            value={this.state.placeName}
-            onChangeText={this.placeNameChangeHandler}
-            style={styles.placeInput}
-          />
-          <Button
-            title="add"
-            style={styles.placeButton}
-            onPress={this.placeSubmitHandler}
-          />
-        </View>
-        <View style={styles.listContainer}>{placesOutput}</View>
-        <View />
+        <PlaceInput onPlaceAdded={this.placeAddedHandler} />
+        <PlaceList
+          places={this.state.places}
+          onItemDeleted={this.placeDeletedHandler}
+        />
       </View>
     );
   }
@@ -55,21 +47,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start"
-  },
-  inputContainter: {
-    // flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  placeInput: {
-    width: "70%"
-  },
-  placeButton: {
-    width: "70%"
-  },
-  listContainer: {
-    width: "100%"
   }
 });
