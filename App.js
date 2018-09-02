@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 
+import ListItem from "./src/components/ListItem/ListItem";
+
 export default class App extends React.Component {
   state = {
     placeName: "",
@@ -17,16 +19,17 @@ export default class App extends React.Component {
     if (this.state.placeName.trim() === "") {
       return;
     }
-    this.setState(s => ({ places: [s.places, s.placeName] }));
+    this.setState(s => ({ places: [...s.places, s.placeName] }));
   };
 
   render() {
-    const placesOutput = this.state.places.map(p => <Text key={p}>{p}</Text>);
+    const placesOutput = this.state.places.map(p => (
+      <ListItem key={p} placeName={p} />
+    ));
     return (
       <View style={styles.container}>
         <View style={styles.inputContainter}>
           <TextInput
-            // style={{ width: 300 }}
             placeholder="Awesome place"
             value={this.state.placeName}
             onChangeText={this.placeNameChangeHandler}
@@ -38,7 +41,7 @@ export default class App extends React.Component {
             onPress={this.placeSubmitHandler}
           />
         </View>
-        <View>{placesOutput}</View>
+        <View style={styles.listContainer}>{placesOutput}</View>
         <View />
       </View>
     );
@@ -65,5 +68,8 @@ const styles = StyleSheet.create({
   },
   placeButton: {
     width: "70%"
+  },
+  listContainer: {
+    width: "100%"
   }
 });
