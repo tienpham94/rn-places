@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import PlaceInput from "./src/components/PlaceInput/PlaceInput";
 import PlaceList from "./src/components/PlaceList/PlaceList";
+import placeImage from "./src/assets/beautiful-place.jpg";
 
 export default class App extends Component {
   state = {
@@ -14,7 +15,8 @@ export default class App extends Component {
       return {
         places: prevState.places.concat({
           key: Math.random().toString(),
-          value: placeName
+          value: placeName,
+          image: placeImage
         })
       };
     });
@@ -23,7 +25,7 @@ export default class App extends Component {
   placeDeletedHandler = index => {
     this.setState(prevState => {
       return {
-        places: prevState.places.filter((place) => {
+        places: prevState.places.filter(place => {
           return place.key !== index;
         })
       };
