@@ -24,7 +24,7 @@ export default class App extends React.Component {
 
   render() {
     const placesOutput = this.state.places.map(p => (
-      <ListItem key={p} placeName={p} />
+      <ListItem key={p} placeName={p} onItemPress={() => alert("pressed", p)} />
     ));
     return (
       <View style={styles.container}>
