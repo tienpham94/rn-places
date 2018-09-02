@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 
 export default class App extends React.Component {
   state = {
@@ -15,12 +15,16 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          style={{ width: 300 }}
-          placeholder="Awesome place"
-          value={this.state.placeName}
-          onChangeText={this.placeNameChangeHandler}
-        />
+        <View style={styles.inputContainter}>
+          <TextInput
+            // style={{ width: 300 }}
+            placeholder="Awesome place"
+            value={this.state.placeName}
+            onChangeText={this.placeNameChangeHandler}
+            style={styles.placeInput}
+          />
+          <Button title="add" style={styles.placeButton} />
+        </View>
       </View>
     );
   }
@@ -33,5 +37,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  inputContainter: {
+    // flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  placeInput: {
+    width: "70%"
+  },
+  placeButton: {
+    width: "70%"
   }
 });
